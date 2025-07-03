@@ -16,17 +16,24 @@ A modern, responsive landing page built with **React**, **Tailwind CSS**, and **
 react-landing/
 ├── public/ # Static files
 ├── src/
-│ ├── components/ # UI Components
+│ ├── assets/
+│ ├── components/
+│ ├── utils/
+│ ├── App.css
 │ ├── App.jsx
+│ ├── index.css
 │ └── main.jsx
-├── index.css, vite.config.js, tailwind.config.js
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md
 ```
 
 ## 📦 Setup
 
 ```bash
 git clone https://github.com/nirdhum/honest-landing.git
-cd react-landing
+cd honest-landing
 npm install
 npm run dev
 ```
