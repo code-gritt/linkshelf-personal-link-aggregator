@@ -55,4 +55,4 @@ npm run build
 
 ## 🙌 Credits
 
-Made with ❤️ by Nirdhum using React, Tailwind, Vite, Swiper, Framer Motion.
+Made by Nirdhum while learning React, Tailwind, Vite, Swiper, Framer Motion.
