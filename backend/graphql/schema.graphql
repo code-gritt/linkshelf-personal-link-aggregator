@@ -1,6 +1,8 @@
 type Query {
     # Returns the currently authenticated user
     me: User @auth
+    # Returns all links for the authenticated user
+    links: [Link!]!
 }
 
 type Mutation {
@@ -11,6 +13,14 @@ type Mutation {
     # Login an existing user
     login(input: LoginInput!): AuthPayload
         @field(resolver: "App\\GraphQL\\Mutations\\Login")
+
+    # Create a new link
+    createLink(input: LinkInput!): Link!
+        @field(resolver: "App\\GraphQL\\Mutations\\CreateLink")
+
+    # Delete a link by ID
+    deleteLink(id: Int!): Boolean!
+        @field(resolver: "App\\GraphQL\\Mutations\\DeleteLink")
 }
 
 type User {
@@ -29,6 +39,18 @@ input RegisterInput {
 input LoginInput {
     email: String!
     password: String!
+}
+
+input LinkInput {
+    url: String!
+    category: String
+}
+
+type Link {
+    id: ID!
+    url: String!
+    category: String
+    created_at: String
 }
 
 type AuthPayload {

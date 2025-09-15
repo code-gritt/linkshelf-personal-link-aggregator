@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useAuthStore } from "./useAuthStore";
 
 export const useApiStore = create((set) => ({
   isLoading: false,
@@ -7,14 +8,20 @@ export const useApiStore = create((set) => ({
   setLoading: (loading) => set({ isLoading: loading }),
   setError: (error) => set({ error }),
 
-  graphqlRequest: async (query, variables = {}) => {
+  graphqlRequest: async (query, variables = {}, headers = {}) => {
     set({ isLoading: true, error: null });
 
     try {
+      const { token } = useAuthStore.getState();
+
       const response = await fetch("http://127.0.0.1:8000/graphql", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // important if Laravel uses sessions/cookies
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          ...headers,
+        },
+        credentials: "include", // preserve cookies/session support
         body: JSON.stringify({ query, variables }),
       });
 
