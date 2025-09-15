@@ -1,0 +1,58 @@
+# backend/.render.yaml
+services:
+  - type: web
+    name: laravel-backend
+    env: php
+    branch: main # Change to your branch if not 'main'
+    buildCommand: composer install --optimize-autoloader --no-dev
+    startCommand: sh -c "php artisan serve --host 0.0.0.0 --port \$PORT"
+    envVars:
+      # Laravel APP key
+      - key: APP_KEY
+        fromDatabase: false
+        value: base64:your_generated_key_here
+
+      # Laravel environment
+      - key: APP_ENV
+        fromDatabase: false
+        value: production
+
+      # Database config for NeonDB or PostgreSQL
+      - key: DB_CONNECTION
+        fromDatabase: false
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase: false
+        value: your_db_host
+      - key: DB_PORT
+        fromDatabase: false
+        value: 5432
+      - key: DB_DATABASE
+        fromDatabase: false
+        value: your_db_name
+      - key: DB_USERNAME
+        fromDatabase: false
+        value: your_db_user
+      - key: DB_PASSWORD
+        fromDatabase: false
+        value: your_db_password
+
+      # Optional: mail or other Laravel services
+      - key: MAIL_MAILER
+        fromDatabase: false
+        value: smtp
+      - key: MAIL_HOST
+        fromDatabase: false
+        value: smtp.mailtrap.io
+      - key: MAIL_PORT
+        fromDatabase: false
+        value: 2525
+      - key: MAIL_USERNAME
+        fromDatabase: false
+        value: your_mail_user
+      - key: MAIL_PASSWORD
+        fromDatabase: false
+        value: your_mail_pass
+      - key: MAIL_ENCRYPTION
+        fromDatabase: false
+        value: null
