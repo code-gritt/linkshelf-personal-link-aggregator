@@ -6,18 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    // Disable wrapping in a transaction to avoid PostgreSQL foreign key errors
+    public $withinTransaction = false;
+
+    public function up(): void
     {
-        // Create table without foreign key
+        // Step 1: Create the table without the foreign key
         Schema::create('links', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
+            $table->unsignedBigInteger('user_id'); // explicit BIGINT
             $table->text('url');
             $table->string('category')->nullable();
             $table->timestamps();
         });
 
-        // Add foreign key separately
+        // Step 2: Add the foreign key in a separate schema call
         Schema::table('links', function (Blueprint $table) {
             $table->foreign('user_id')
                 ->references('id')
@@ -26,7 +29,7 @@ return new class extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('links');
     }
