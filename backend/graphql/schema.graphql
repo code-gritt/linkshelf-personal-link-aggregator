@@ -1,0 +1,37 @@
+type Query {
+    # Returns the currently authenticated user
+    me: User @auth
+}
+
+type Mutation {
+    # Register a new user
+    register(input: RegisterInput!): AuthPayload
+        @field(resolver: "App\\GraphQL\\Mutations\\Register")
+
+    # Login an existing user
+    login(input: LoginInput!): AuthPayload
+        @field(resolver: "App\\GraphQL\\Mutations\\Login")
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+input RegisterInput {
+    name: String!
+    email: String! @rules(apply: ["email", "unique:users,email"])
+    password: String! @rules(apply: ["min:8"])
+    password_confirmation: String!
+}
+
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+type AuthPayload {
+    token: String!
+    user: User!
+}
