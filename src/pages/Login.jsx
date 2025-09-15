@@ -11,6 +11,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const data = await graphqlRequest(
         `
@@ -23,11 +24,11 @@ const Login = () => {
       `,
         { input: { email, password } }
       );
+
       setAuth(data.login.user, data.login.token);
-      // Navigate to dashboard
       window.location.href = "/dashboard";
     } catch (err) {
-      // Error handled by useApiStore
+      // error handled in store
     }
   };
 

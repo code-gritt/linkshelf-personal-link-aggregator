@@ -11,10 +11,10 @@ export const useApiStore = create((set) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const response = await fetch("http://localhost:8000", {
+      const response = await fetch("http://127.0.0.1:8000/graphql", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        credentials: "include", // important if Laravel uses sessions/cookies
         body: JSON.stringify({ query, variables }),
       });
 

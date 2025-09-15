@@ -13,6 +13,7 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
     try {
       const data = await graphqlRequest(
         `
@@ -32,11 +33,11 @@ const Register = () => {
           },
         }
       );
+
       setAuth(data.register.user, data.register.token);
-      // Navigate to dashboard
       window.location.href = "/dashboard";
     } catch (err) {
-      // Error handled by useApiStore
+      // error handled in store
     }
   };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useApiStore } from "../store/useApiStore";
 import Loader from "../components/Loader";
@@ -7,16 +7,19 @@ const Dashboard = () => {
   const { user, clearAuth } = useAuthStore();
   const { isLoading } = useApiStore();
 
-  // Redirect to login if not authenticated
-  if (!user) {
-    window.location.href = "/login";
-    return null;
-  }
+  // Redirect to login if user is not authenticated
+  useEffect(() => {
+    if (!user) {
+      window.location.href = "/login";
+    }
+  }, [user]);
 
   const handleLogout = () => {
     clearAuth();
     window.location.href = "/login";
   };
+
+  if (!user) return <Loader isLoading={true} />; // Show loader while redirecting
 
   const initials = user.name
     .split(" ")
@@ -30,6 +33,7 @@ const Dashboard = () => {
       <Loader isLoading={isLoading} />
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between bg-white p-6 rounded-xl shadow-md border border-gray-200">
+          {/* User Info */}
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
               {initials}
@@ -41,10 +45,12 @@ const Dashboard = () => {
               <p className="text-gray-500">{user.email}</p>
             </div>
           </div>
+
+          {/* Actions */}
           <div className="flex gap-4">
             <button
               className="bg-amber-500 text-white px-6 py-2 rounded-lg hover:bg-blue-500 transition-all hover:shadow-lg hover:shadow-blue-100"
-              onClick={() => (window.location.href = "/dashboard")}
+              onClick={() => window.location.reload()}
             >
               Dashboard
             </button>
