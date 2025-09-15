@@ -19,7 +19,7 @@ return [
     'allowed_methods' => ['*'],
 
     // Frontend URLs allowed to make requests
-    'allowed_origins' => ['http://localhost:1000'],
+    'allowed_origins' => ['http://localhost:1000', 'https://linkshelf-pink.vercel.app'],
 
     // Optional: patterns for allowed origins
     'allowed_origins_patterns' => [],
