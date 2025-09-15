@@ -1,22 +1,33 @@
 <?php
 
 return [
+  /*
+    |--------------------------------------------------------------------------
+    | Schema Path
+    |--------------------------------------------------------------------------
+    |
+    | The path to your GraphQL schema file.
+    |
+    */
+  'schema' => [
+    'register' => base_path('graphql/schema.graphql'),
+  ],
 
   /*
     |--------------------------------------------------------------------------
     | Resolver Namespaces
     |--------------------------------------------------------------------------
-    |
-    | These namespaces tell Lighthouse where to find your GraphQL resolvers.
-    | You can define separate namespaces for queries, mutations, and models.
-    |
     */
-
   'namespaces' => [
     'mutations' => 'App\\GraphQL\\Mutations',
-    'queries' => 'App\\GraphQL\\Queries', // optional
-    'models' => 'App\\Models',            // optional
+    'queries' => 'App\\GraphQL\\Queries',
+    'models' => 'App\\Models',
   ],
 
-  // ... you can add other Lighthouse config options here as needed
+  /*
+    |--------------------------------------------------------------------------
+    | Authentication Guard
+    |--------------------------------------------------------------------------
+    */
+  'guard' => 'sanctum', // For @auth directive with Sanctum
 ];
