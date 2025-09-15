@@ -4,37 +4,20 @@ namespace App\GraphQL\Mutations;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Illuminate\Validation\ValidationException;
 
 class Login
 {
-  /**
-   * Handle the login mutation.
-   *
-   * @param  mixed  $_
-   * @param  array  $args
-   * @return array
-   */
-  public function __invoke($_, array $args): array
+  public function __invoke($_, array $args)
   {
     $credentials = $args['input'];
 
-    // Attempt to authenticate the user
-    if (!Auth::attempt([
-      'email' => $credentials['email'],
-      'password' => $credentials['password'],
-    ])) {
-      throw ValidationException::withMessages([
-        'email' => ['The provided credentials are incorrect.'],
-      ]);
+    if (!Auth::attempt($credentials)) {
+      throw new \Exception('Invalid credentials');
     }
 
-    $user = User::where('email', $credentials['email'])->firstOrFail();
+    $user = User::where('email', $credentials['email'])->first();
     $token = $user->createToken('auth_token')->plainTextToken;
 
-    return [
-      'token' => $token,
-      'user' => $user,
-    ];
+    return ['token' => $token, 'user' => $user];
   }
 }
